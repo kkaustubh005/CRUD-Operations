@@ -32,7 +32,7 @@ public class CRUDController {
 
     @PutMapping("/putSurvey")
     public void putSurvey(){
-
+        System.out.println("Hello");
     }
 
 
