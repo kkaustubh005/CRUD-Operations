@@ -30,5 +30,10 @@ public class CRUDController {
 
     }
 
+    @PutMapping("/putSurvey")
+    public void putSurvey(){
+
+    }
+
 
 }
