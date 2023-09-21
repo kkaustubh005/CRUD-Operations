@@ -1,0 +1,57 @@
+#version: '3'
+#services:
+#  # Spring Boot application
+#  springboot-app:
+#    image: crud-operations-docker.jar:latest  # Use your Spring Boot Docker image name
+#    ports:
+#      - "8080:8080"  # Map container port 8080 to host port 8080
+#    depends_on:
+#      - mysql-db
+#    environment:
+#      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/survey  # Replace with your database URL
+#      - SPRING_DATASOURCE_USERNAME=root
+#      - SPRING_DATASOURCE_PASSWORD=rootuser
+#
+#  # MySQL database
+#  mysql-db:
+#    image: mysql:8.0.33 # You can choose a different MySQL version
+#    ports:
+#      - "3306:3306"  # Map container port 3306 to host port 3306
+#    environment:
+#      MYSQL_ROOT_PASSWORD: rootuser
+#      MYSQL_DATABASE: survey  # Create a database with this name
+#      MYSQL_USER: root
+#      MYSQL_PASSWORD: rootuser
+###################################
+
+version: "3.7"
+services:
+  api_service:
+    build: .
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - springapimysql-net
+    environment:
+      - spring.datasource.url=jdbc:mysql://mysqldb:3306/survey?allowPublicKeyRetrieval=true
+    depends_on:
+      - mysqldb
+
+    volumes:
+      - .m2:/root/.m2
+
+  mysqldb:
+    image: "mysql:8.0"
+    restart: always
+    ports:
+      - 3306:3306
+    networks:
+      - springapimysql-net
+    environment:
+      MYSQL_DATABASE: survey
+      MYSQL_USER: kaustubh
+      MYSQL_PASSWORD: mostwanted
+      MYSQL_ROOT_PASSWORD: rootuser
+networks:
+  springapimysql-net:
